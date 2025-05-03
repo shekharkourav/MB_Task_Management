@@ -1,0 +1,77 @@
+<!-- <html>
+<head><title>My Tasks</title></head>
+<body>
+  <h2>Task List</h2>
+  <a href="/tasks/new">Create New Task</a> | <a href="/auth/logout">Logout</a>
+  <ul>
+     tasks.forEach(task => { %>
+      <li =/*eslint-disable css-propertyvalueexpected */%>
+      style="color: = task.priority === 'high' ? 'red' : task.priority === 'medium' ? 'orange' : 'green' %>">
+        <strong>= task.title %></strong> - = task.dueDate.toDateString() %> - = task.status %> <strong>= task.priority %></strong><br>
+        <div>= task.description %></div>
+        <div>
+          <a href="/tasks/= task._id %>">View</a> |
+          <a href="/tasks/= task._id %>/edit">Edit</a> |
+          <form action="/tasks/= task._id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this task?');">
+            <button type="submit">Delete</button>
+          </form>
+        </div>
+      </li>
+     }); %>
+  </ul>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Tasks</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .priority-high {
+      background-color: #f8d7da; /* Light red */
+    }
+    .priority-medium {
+      background-color: #fff3cd; /* Light yellow */
+    }
+    .priority-low {
+      background-color: #d1e7dd; /* Light green */
+    }
+  </style>
+</head>
+<body class="container py-4">
+  <h2 class="mb-4">Task List</h2>
+  <a href="/tasks/new" class="btn btn-primary me-2">Create New Task</a>
+  <a href="/auth/logout" class="btn btn-outline-danger">Logout</a>
+
+  <div class="row mt-4">
+    <% tasks.forEach(task => { 
+      const priorityClass = task.priority === 'high' 
+        ? 'priority-high' 
+        : task.priority === 'medium' 
+        ? 'priority-medium' 
+        : 'priority-low';
+    %>
+      <div class="col-md-6 mb-4">
+        <div class="card border-2 <%= priorityClass %>">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= task.title %>
+              <span class="badge bg-secondary float-end"><%= task.status %></span>
+            </h5>
+            <h6 class="card-subtitle mb-2 text-muted">Due: <%= task.dueDate.toDateString() %> | Priority: <%= task.priority %></h6>
+            <p class="card-text" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"><%= task.description %></p>
+            <a href="/tasks/<%= task._id %>" class="btn btn-sm btn-info">View</a>
+            <a href="/tasks/<%= task._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+            <form action="/tasks/<%= task._id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this task?');">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</body>
+</html>
+
